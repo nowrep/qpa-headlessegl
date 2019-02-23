@@ -18,6 +18,7 @@
 
 #include "headlesseglintegration.h"
 #include "headlesseglbackingstore.h"
+#include "headlesseglscreen.h"
 
 #include <qpa/qplatformwindow.h>
 #include <qpa/qplatformbackingstore.h>
@@ -41,6 +42,7 @@ HeadlessEglIntegration::HeadlessEglIntegration(const QStringList &parameters)
 
 HeadlessEglIntegration::~HeadlessEglIntegration()
 {
+    destroyScreen(m_screen);
     delete m_fontDatabase;
 }
 
@@ -88,6 +90,9 @@ QAbstractEventDispatcher *HeadlessEglIntegration::createEventDispatcher() const
 void HeadlessEglIntegration::initialize()
 {
     QPlatformIntegration::initialize();
+
+    m_screen = new HeadlessEglScreen;
+    screenAdded(m_screen);
 
     m_dpy = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (Q_UNLIKELY(m_dpy == EGL_NO_DISPLAY)) {
