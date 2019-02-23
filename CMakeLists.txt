@@ -12,6 +12,8 @@ find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui)
 find_package(Qt5FontDatabaseSupport REQUIRED)
 find_package(Qt5EventDispatcherSupport REQUIRED)
 find_package(Qt5EglSupport REQUIRED)
+find_package(Freetype REQUIRED)
+find_package(Fontconfig REQUIRED)
 find_package(EGL REQUIRED)
 
 set(CMAKE_AUTOMOC ON)

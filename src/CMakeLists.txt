@@ -16,6 +16,8 @@ target_link_libraries(headlessegl
     Qt5FontDatabaseSupport::Qt5FontDatabaseSupport
     Qt5EventDispatcherSupport::Qt5EventDispatcherSupport
     Qt5EglSupport::Qt5EglSupport
+    Fontconfig::Fontconfig
+    ${FREETYPE_LIBRARIES}
     ${EGL_LIBRARY}
 )
 
