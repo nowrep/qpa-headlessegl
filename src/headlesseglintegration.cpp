@@ -96,12 +96,10 @@ void HeadlessEglIntegration::initialize()
 
     m_dpy = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (Q_UNLIKELY(m_dpy == EGL_NO_DISPLAY)) {
-        qWarning("Could not open egl display");
-        qFatal("EGL error");
+        qFatal("Could not open EGL display: error = 0x%x", eglGetError());
     }
     EGLint major, minor;
     if (Q_UNLIKELY(!eglInitialize(m_dpy, &major, &minor))) {
-        qWarning("Could not initialize egl display\n");
-        qFatal("EGL error");
+        qFatal("Could not initialize EGL display: error = 0x%x", eglGetError());
     }
 }
