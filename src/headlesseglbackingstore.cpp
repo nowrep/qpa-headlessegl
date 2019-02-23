@@ -16,24 +16,30 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * ============================================================ */
 
-#include <qpa/qplatformintegrationplugin.h>
-#include "headlesseglintegration.h"
+#include "headlesseglbackingstore.h"
 
-class HeadlessEglIntegrationPlugin : public QPlatformIntegrationPlugin
+HeadlessEglBackingStore::HeadlessEglBackingStore(QWindow *window)
+    : QPlatformBackingStore(window)
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID QPlatformIntegrationFactoryInterface_iid FILE "headlessegl.json")
-public:
-    using QPlatformIntegrationPlugin::create;
-    QPlatformIntegration *create(const QString &system, const QStringList &paramList) override;
-};
-
-QPlatformIntegration *HeadlessEglIntegrationPlugin::create(const QString &system, const QStringList &paramList)
-{
-    if (system.compare(QLatin1String("headlessegl"), Qt::CaseInsensitive) == 0) {
-        return new HeadlessEglIntegration(paramList);
-    }
-    return nullptr;
 }
 
-#include "main.moc"
+QPaintDevice *HeadlessEglBackingStore::paintDevice()
+{
+    qWarning("HeadlessEglBackingStore::paintDevice not supported");
+    return &m_image;
+}
+
+void HeadlessEglBackingStore::flush(QWindow *window, const QRegion &region, const QPoint &offset)
+{
+    Q_UNUSED(window);
+    Q_UNUSED(region);
+    Q_UNUSED(offset);
+    qWarning("HeadlessEglBackingStore::flush not supported");
+}
+
+void HeadlessEglBackingStore::resize(const QSize &size, const QRegion &staticContents)
+{
+    Q_UNUSED(size);
+    Q_UNUSED(staticContents);
+    qWarning("HeadlessEglBackingStore::resize not supported");
+}

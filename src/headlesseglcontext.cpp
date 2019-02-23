@@ -16,24 +16,18 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * ============================================================ */
 
-#include <qpa/qplatformintegrationplugin.h>
-#include "headlesseglintegration.h"
+#include "headlesseglcontext.h"
 
-class HeadlessEglIntegrationPlugin : public QPlatformIntegrationPlugin
+HeadlessEglContext::HeadlessEglContext(const QSurfaceFormat &format, QPlatformOpenGLContext *share, EGLDisplay display)
+    : QEGLPlatformContext(format, share, display)
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID QPlatformIntegrationFactoryInterface_iid FILE "headlessegl.json")
-public:
-    using QPlatformIntegrationPlugin::create;
-    QPlatformIntegration *create(const QString &system, const QStringList &paramList) override;
-};
+}
 
-QPlatformIntegration *HeadlessEglIntegrationPlugin::create(const QString &system, const QStringList &paramList)
+EGLSurface HeadlessEglContext::eglSurfaceForPlatformSurface(QPlatformSurface *surface)
 {
-    if (system.compare(QLatin1String("headlessegl"), Qt::CaseInsensitive) == 0) {
-        return new HeadlessEglIntegration(paramList);
+    QEGLPbuffer *pbuffer = dynamic_cast<QEGLPbuffer *>(surface);
+    if (pbuffer) {
+        return pbuffer->pbuffer();
     }
     return nullptr;
 }
-
-#include "main.moc"

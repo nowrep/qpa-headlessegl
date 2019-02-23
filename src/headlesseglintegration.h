@@ -23,7 +23,7 @@
 class HeadlessEglIntegration : public QPlatformIntegration
 {
 public:
-    HeadlessEglIntegration();
+    HeadlessEglIntegration(const QStringList &parameters);
     ~HeadlessEglIntegration();
 
     bool hasCapability(QPlatformIntegration::Capability cap) const override;
@@ -34,6 +34,11 @@ public:
     QPlatformFontDatabase *fontDatabase() const override;
     QAbstractEventDispatcher *createEventDispatcher() const override;
 
+    void initialize() override;
+
 private:
-    QPlatformFontDatabase *m_fontDatabase;
+    QStringList m_parameters;
+
+    QPlatformFontDatabase *m_fontDatabase = nullptr;
+    void *m_dpy = nullptr;
 };

@@ -16,24 +16,18 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * ============================================================ */
 
-#include <qpa/qplatformintegrationplugin.h>
-#include "headlesseglintegration.h"
+#include <QImage>
+#include <qpa/qplatformbackingstore.h>
 
-class HeadlessEglIntegrationPlugin : public QPlatformIntegrationPlugin
+class HeadlessEglBackingStore : public QPlatformBackingStore
 {
-    Q_OBJECT
-    Q_PLUGIN_METADATA(IID QPlatformIntegrationFactoryInterface_iid FILE "headlessegl.json")
 public:
-    using QPlatformIntegrationPlugin::create;
-    QPlatformIntegration *create(const QString &system, const QStringList &paramList) override;
+    HeadlessEglBackingStore(QWindow *window);
+
+    QPaintDevice *paintDevice() override;
+    void flush(QWindow *window, const QRegion &region, const QPoint &offset) override;
+    void resize(const QSize &size, const QRegion &staticContents) override;
+
+private:
+    QImage m_image;
 };
-
-QPlatformIntegration *HeadlessEglIntegrationPlugin::create(const QString &system, const QStringList &paramList)
-{
-    if (system.compare(QLatin1String("headlessegl"), Qt::CaseInsensitive) == 0) {
-        return new HeadlessEglIntegration(paramList);
-    }
-    return nullptr;
-}
-
-#include "main.moc"
