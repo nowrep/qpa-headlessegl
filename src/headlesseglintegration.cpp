@@ -94,6 +94,7 @@ void HeadlessEglIntegration::initialize()
     m_screen = new HeadlessEglScreen;
     screenAdded(m_screen);
 
+    qputenv("EGL_PLATFORM", "surfaceless");
     m_dpy = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (Q_UNLIKELY(m_dpy == EGL_NO_DISPLAY)) {
         qFatal("Could not open EGL display: error = 0x%x", eglGetError());
@@ -102,4 +103,5 @@ void HeadlessEglIntegration::initialize()
     if (Q_UNLIKELY(!eglInitialize(m_dpy, &major, &minor))) {
         qFatal("Could not initialize EGL display: error = 0x%x", eglGetError());
     }
+    qunsetenv("EGL_PLATFORM");
 }
