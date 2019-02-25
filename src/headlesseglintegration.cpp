@@ -33,6 +33,10 @@
 // this is where EGL headers are pulled in, make sure it is last
 #include "headlesseglcontext.h"
 
+#ifndef EGL_PLATFORM_SURFACELESS_MESA
+#define EGL_PLATFORM_SURFACELESS_MESA 0x31DD
+#endif
+
 HeadlessEglIntegration::HeadlessEglIntegration(const QStringList &parameters)
     : QPlatformIntegration()
     , m_parameters(parameters)
@@ -91,11 +95,23 @@ void HeadlessEglIntegration::initialize()
 {
     QPlatformIntegration::initialize();
 
-    m_screen = new HeadlessEglScreen;
-    screenAdded(m_screen);
+    if (q_hasEglExtension(EGL_NO_DISPLAY, "EGL_EXT_platform_base")) {
+        if (q_hasEglExtension(EGL_NO_DISPLAY, "EGL_KHR_platform_surfaceless") ||
+                q_hasEglExtension(EGL_NO_DISPLAY, "EGL_EXT_platform_surfaceless") ||
+                q_hasEglExtension(EGL_NO_DISPLAY, "EGL_MESA_platform_surfaceless")) {
+            static PFNEGLGETPLATFORMDISPLAYEXTPROC eglGetPlatformDisplay = nullptr;
+            if (!eglGetPlatformDisplay) {
+                eglGetPlatformDisplay = (PFNEGLGETPLATFORMDISPLAYEXTPROC)eglGetProcAddress("eglGetPlatformDisplayEXT");
+            }
+            m_dpy = eglGetPlatformDisplay(EGL_PLATFORM_SURFACELESS_MESA, EGL_DEFAULT_DISPLAY, nullptr);
+        } else {
+            qFatal("The EGL implementation does not support the surfaceless platform");
+            return;
+        }
+    } else {
+        qFatal("The EGL implementation does not support the required platform extensions");
+    }
 
-    qputenv("EGL_PLATFORM", "surfaceless");
-    m_dpy = eglGetDisplay(EGL_DEFAULT_DISPLAY);
     if (Q_UNLIKELY(m_dpy == EGL_NO_DISPLAY)) {
         qFatal("Could not open EGL display: error = 0x%x", eglGetError());
     }
@@ -103,5 +119,7 @@ void HeadlessEglIntegration::initialize()
     if (Q_UNLIKELY(!eglInitialize(m_dpy, &major, &minor))) {
         qFatal("Could not initialize EGL display: error = 0x%x", eglGetError());
     }
-    qunsetenv("EGL_PLATFORM");
+
+    m_screen = new HeadlessEglScreen;
+    screenAdded(m_screen);
 }

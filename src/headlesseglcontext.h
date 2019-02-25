@@ -18,6 +18,7 @@
 
 #include <QtEglSupport/private/qeglpbuffer_p.h>
 #include <QtEglSupport/private/qeglplatformcontext_p.h>
+#include <QtEglSupport/private/qeglconvenience_p.h>
 
 class HeadlessEglContext : public QEGLPlatformContext
 {
