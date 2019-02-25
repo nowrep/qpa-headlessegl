@@ -23,7 +23,7 @@
 class HeadlessEglContext : public QEGLPlatformContext
 {
 public:
-    HeadlessEglContext(const QSurfaceFormat &format, QPlatformOpenGLContext *share, EGLDisplay display);
+    HeadlessEglContext(const QSurfaceFormat &format, EGLDisplay display, EGLConfig *config);
 
     EGLSurface eglSurfaceForPlatformSurface(QPlatformSurface *surface) override;
 };

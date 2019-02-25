@@ -73,7 +73,8 @@ QPlatformBackingStore *HeadlessEglIntegration::createPlatformBackingStore(QWindo
 
 QPlatformOpenGLContext *HeadlessEglIntegration::createPlatformOpenGLContext(QOpenGLContext *context) const
 {
-    return new HeadlessEglContext(context->format(), nullptr, m_dpy);
+    EGLConfig config = q_configFromGLFormat(m_dpy, context->format(), false, EGL_PBUFFER_BIT);
+    return new HeadlessEglContext(context->format(), m_dpy, &config);
 }
 
 QPlatformOffscreenSurface *HeadlessEglIntegration::createPlatformOffscreenSurface(QOffscreenSurface *surface) const

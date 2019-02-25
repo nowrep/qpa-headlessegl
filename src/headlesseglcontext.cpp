@@ -18,8 +18,8 @@
 
 #include "headlesseglcontext.h"
 
-HeadlessEglContext::HeadlessEglContext(const QSurfaceFormat &format, QPlatformOpenGLContext *share, EGLDisplay display)
-    : QEGLPlatformContext(format, share, display)
+HeadlessEglContext::HeadlessEglContext(const QSurfaceFormat &format, EGLDisplay display, EGLConfig *config)
+    : QEGLPlatformContext(format, nullptr, display, config)
 {
 }
 
