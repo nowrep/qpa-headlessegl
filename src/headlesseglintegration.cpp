@@ -48,6 +48,7 @@ HeadlessEglIntegration::~HeadlessEglIntegration()
 {
     destroyScreen(m_screen);
     delete m_fontDatabase;
+    eglTerminate(m_dpy);
 }
 
 bool HeadlessEglIntegration::hasCapability(QPlatformIntegration::Capability cap) const
