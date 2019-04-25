@@ -1,83 +1,53 @@
-# Try to find EGL library and include dir.
-# Once done this will define
+# - Try to Find EGL
+# Once done, this will define
 #
-# EGL_FOUND        - true if EGL has been found
-# EGL_INCLUDE_DIR  - where the EGL/egl.h and KHR/khrplatform.h can be found
-# EGL_LIBRARY      - link this to use libEGL.so.1
-# EGL_opengl_LIBRARY     - link with these two libraries instead of the gl library
-# EGL_gldispatch_LIBRARY   for full OpenGL support through EGL
-# EGL_LIBRARIES    - all EGL related libraries: EGL, OpenGL, GLdispatch
+#  EGL_FOUND - system has EGL installed.
+#  EGL_INCLUDE_DIRS - directories which contain the EGL headers.
+#  EGL_LIBRARIES - libraries required to link against EGL.
+#  EGL_DEFINITIONS - Compiler switches required for using EGL.
+#
+# Copyright (C) 2012 Intel Corporation. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1.  Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+# 2.  Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDER AND ITS CONTRIBUTORS ``AS
+# IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+# THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR ITS
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
+# OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+# WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
+# OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+# ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-if(NOT EGL_INCLUDE_DIR)
+find_package(PkgConfig)
 
-  # If we have a root defined look there first
-  if(EGL_ROOT)
-    find_path(EGL_INCLUDE_DIR EGL/egl.h PATHS ${EGL_ROOT}/include
-      NO_DEFAULT_PATH
-    )
-  endif()
+pkg_check_modules(PC_EGL egl)
 
-  if(NOT EGL_INCLUDE_DIR)
-    find_path(EGL_INCLUDE_DIR EGL/egl.h PATHS
-      /usr/local/include
-      /usr/include
-    )
-  endif()
-endif()
+if (PC_EGL_FOUND)
+    set(EGL_DEFINITIONS ${PC_EGL_CFLAGS_OTHER})
+endif ()
 
-if(NOT EGL_LIBRARY)
-  # If we have a root defined look there first
-  if(EGL_ROOT)
-    find_library(EGL_LIBRARY EGL PATHS ${EGL_ROOT}/lib
-      NO_DEFAULT_PATH
-    )
-  endif()
+find_path(EGL_INCLUDE_DIRS NAMES EGL/egl.h
+    HINTS ${PC_EGL_INCLUDEDIR} ${PC_EGL_INCLUDE_DIRS}
+)
 
-  if(NOT EGL_LIBRARY)
-    find_library(EGL_LIBRARY EGL PATHS
-      /usr/local/lib
-      /usr/lib
-    )
-  endif()
-endif()
-
-if(NOT EGL_opengl_LIBRARY)
-  # If we have a root defined look there first
-  if(EGL_ROOT)
-    find_library(EGL_opengl_LIBRARY OpenGL PATHS ${EGL_ROOT}/lib
-      NO_DEFAULT_PATH
-    )
-  endif()
-
-  if(NOT EGL_opengl_LIBRARY)
-    find_library(EGL_opengl_LIBRARY OpenGL PATHS
-      /usr/local/lib
-      /usr/lib
-    )
-  endif()
-endif()
-
-if(NOT EGL_gldispatch_LIBRARY)
-  # If we have a root defined look there first
-  if(EGL_ROOT)
-    find_library(EGL_gldispatch_LIBRARY GLdispatch PATHS ${EGL_ROOT}/lib
-      NO_DEFAULT_PATH
-    )
-  endif()
-
-  if(NOT EGL_gldispatch_LIBRARY)
-    find_library(EGL_gldispatch_LIBRARY GLdispatch PATHS
-      /usr/local/lib
-      /usr/lib
-    )
-  endif()
-endif()
-
-set(EGL_LIBRARIES ${EGL_LIBRARY} ${EGL_opengl_LIBRARY} ${EGL_gldispatch_LIBRARY})
+set(EGL_NAMES ${EGL_NAMES} egl EGL)
+find_library(EGL_LIBRARIES NAMES ${EGL_NAMES}
+    HINTS ${PC_EGL_LIBDIR} ${PC_EGL_LIBRARY_DIRS}
+)
 
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(EGL  DEFAULT_MSG
-                                  EGL_LIBRARY  EGL_opengl_LIBRARY EGL_gldispatch_LIBRARY EGL_INCLUDE_DIR)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(EGL DEFAULT_MSG EGL_INCLUDE_DIRS EGL_LIBRARIES)
 
-mark_as_advanced(EGL_DIR EGL_INCLUDE_DIR EGL_LIBRARY EGL_opengl_LIBRARY EGL_gldispatch_LIBRARY)
+mark_as_advanced(EGL_INCLUDE_DIRS EGL_LIBRARIES)

@@ -18,7 +18,7 @@ target_link_libraries(headlessegl
     Qt5EglSupport::Qt5EglSupport
     Fontconfig::Fontconfig
     ${FREETYPE_LIBRARIES}
-    ${EGL_LIBRARY}
+    ${EGL_LIBRARIES}
 )
 
 query_qmake(qt_install_plugins QT_INSTALL_PLUGINS)
