@@ -27,5 +27,5 @@ target_link_libraries(headlessegl
     ${EGL_LIBRARIES}
 )
 
-query_qmake(qt_install_plugins QT_INSTALL_PLUGINS)
-install(TARGETS headlessegl DESTINATION ${qt_install_plugins}/platforms/)
+set(QT5_PLATFORMS_PLUGIN_DIR lib/qt5/plugins/platforms CACHE STRING "Plugin install dir")
+install(TARGETS headlessegl DESTINATION ${QT5_PLATFORMS_PLUGIN_DIR})
