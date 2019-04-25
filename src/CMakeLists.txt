@@ -8,6 +8,12 @@ set(qpa_SRCS
 
 add_library(headlessegl MODULE ${qpa_SRCS})
 
+add_definitions(
+    -DMESA_EGL_NO_X11_HEADERS
+    ${FREETYPE_DEFINITIONS}
+    ${EGL_DEFINITIONS}
+)
+
 target_link_libraries(headlessegl
     Qt5::Core
     Qt5::CorePrivate
