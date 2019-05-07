@@ -27,5 +27,5 @@ target_link_libraries(headlessegl
     ${EGL_LIBRARIES}
 )
 
-set(QT5_PLATFORMS_PLUGIN_DIR lib/qt5/plugins/platforms CACHE STRING "Plugin install dir")
+set(QT5_PLATFORMS_PLUGIN_DIR lib/qt/plugins/platforms CACHE STRING "Plugin install dir")
 install(TARGETS headlessegl DESTINATION ${QT5_PLATFORMS_PLUGIN_DIR})
