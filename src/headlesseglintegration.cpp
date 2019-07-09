@@ -22,6 +22,7 @@
 
 #include <qpa/qplatformwindow.h>
 #include <qpa/qplatformbackingstore.h>
+#include <qpa/qwindowsysteminterface.h>
 
 #include <QtFontDatabaseSupport/private/qgenericunixfontdatabase_p.h>
 #include <QtEventDispatcherSupport/private/qgenericunixeventdispatcher_p.h>
@@ -46,7 +47,7 @@ HeadlessEglIntegration::HeadlessEglIntegration(const QStringList &parameters)
 
 HeadlessEglIntegration::~HeadlessEglIntegration()
 {
-    destroyScreen(m_screen);
+    QWindowSystemInterface::handleScreenRemoved(m_screen);
     delete m_fontDatabase;
     eglTerminate(m_dpy);
 }
@@ -123,5 +124,5 @@ void HeadlessEglIntegration::initialize()
     }
 
     m_screen = new HeadlessEglScreen;
-    screenAdded(m_screen);
+    QWindowSystemInterface::handleScreenAdded(m_screen);
 }
