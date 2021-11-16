@@ -18,7 +18,6 @@
 
 #include "headlesseglintegration.h"
 #include "headlesseglbackingstore.h"
-#include "headlesseglscreen.h"
 
 #include <qpa/qplatformwindow.h>
 #include <qpa/qplatformbackingstore.h>
@@ -47,11 +46,7 @@ HeadlessEglIntegration::HeadlessEglIntegration(const QStringList &parameters)
 
 HeadlessEglIntegration::~HeadlessEglIntegration()
 {
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
     QWindowSystemInterface::handleScreenRemoved(m_screen);
-#else
-    destroyScreen(m_screen);
-#endif
     delete m_fontDatabase;
     eglTerminate(m_dpy);
 }
@@ -127,10 +122,6 @@ void HeadlessEglIntegration::initialize()
         qFatal("Could not initialize EGL display: error = 0x%x", eglGetError());
     }
 
-    m_screen = new HeadlessEglScreen;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
+    m_screen = new QPlatformPlaceholderScreen();
     QWindowSystemInterface::handleScreenAdded(m_screen);
-#else
-    screenAdded(m_screen);
-#endif
 }
