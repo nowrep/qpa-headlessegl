@@ -6,7 +6,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake ${CMAKE_MODULE_PATH})
 
 include(FeatureSummary)
 
-set(QT_MIN_VERSION "5.11.0")
+set(QT_MIN_VERSION "5.15.0")
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Core Gui EglSupport FontDatabaseSupport EventDispatcherSupport)
 find_package(EGL REQUIRED)
 
