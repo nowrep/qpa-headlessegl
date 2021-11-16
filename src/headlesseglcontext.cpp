@@ -25,9 +25,6 @@ HeadlessEglContext::HeadlessEglContext(const QSurfaceFormat &format, EGLDisplay 
 
 EGLSurface HeadlessEglContext::eglSurfaceForPlatformSurface(QPlatformSurface *surface)
 {
-    QEGLPbuffer *pbuffer = dynamic_cast<QEGLPbuffer *>(surface);
-    if (pbuffer) {
-        return pbuffer->pbuffer();
-    }
-    return nullptr;
+    Q_UNUSED(surface);
+    return EGL_NO_SURFACE;
 }

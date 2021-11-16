@@ -74,7 +74,7 @@ QPlatformBackingStore *HeadlessEglIntegration::createPlatformBackingStore(QWindo
 
 QPlatformOpenGLContext *HeadlessEglIntegration::createPlatformOpenGLContext(QOpenGLContext *context) const
 {
-    EGLConfig config = q_configFromGLFormat(m_dpy, context->format(), false, EGL_PBUFFER_BIT);
+    EGLConfig config = EGL_NO_CONFIG_KHR;
     return new HeadlessEglContext(context->format(), m_dpy, &config);
 }
 
