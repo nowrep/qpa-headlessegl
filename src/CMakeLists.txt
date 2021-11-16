@@ -2,6 +2,7 @@ set(qpa_SRCS
     headlesseglintegration.cpp
     headlesseglbackingstore.cpp
     headlesseglcontext.cpp
+    headlessoffscreensurface.cpp
     main.cpp
 )
 

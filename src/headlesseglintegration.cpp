@@ -18,6 +18,7 @@
 
 #include "headlesseglintegration.h"
 #include "headlesseglbackingstore.h"
+#include "headlessoffscreensurface.h"
 
 #include <qpa/qplatformwindow.h>
 #include <qpa/qplatformbackingstore.h>
@@ -83,7 +84,7 @@ QPlatformOpenGLContext *HeadlessEglIntegration::createPlatformOpenGLContext(QOpe
 
 QPlatformOffscreenSurface *HeadlessEglIntegration::createPlatformOffscreenSurface(QOffscreenSurface *surface) const
 {
-    return new QEGLPbuffer(m_dpy, surface->requestedFormat(), surface);
+    return new HeadlessOffscreenSurface(surface->requestedFormat(), surface);
 }
 
 QPlatformFontDatabase *HeadlessEglIntegration::fontDatabase() const
