@@ -16,9 +16,17 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 * ============================================================ */
 
+#include <QtGlobal>
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+#include <QtGui/private/qeglpbuffer_p.h>
+#include <QtGui/private/qeglplatformcontext_p.h>
+#include <QtGui/private/qeglconvenience_p.h>
+#else
 #include <QtEglSupport/private/qeglpbuffer_p.h>
 #include <QtEglSupport/private/qeglplatformcontext_p.h>
 #include <QtEglSupport/private/qeglconvenience_p.h>
+#endif
 
 class HeadlessEglContext : public QEGLPlatformContext
 {
