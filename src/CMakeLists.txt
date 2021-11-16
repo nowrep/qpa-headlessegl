@@ -19,11 +19,9 @@ target_link_libraries(headlessegl
     Qt5::CorePrivate
     Qt5::Gui
     Qt5::GuiPrivate
-    Qt5FontDatabaseSupport::Qt5FontDatabaseSupport
-    Qt5EventDispatcherSupport::Qt5EventDispatcherSupport
-    Qt5EglSupport::Qt5EglSupport
-    Fontconfig::Fontconfig
-    ${FREETYPE_LIBRARIES}
+    Qt5::EglSupportPrivate
+    Qt5::FontDatabaseSupportPrivate
+    Qt5::EventDispatcherSupportPrivate
     ${EGL_LIBRARIES}
 )
 
