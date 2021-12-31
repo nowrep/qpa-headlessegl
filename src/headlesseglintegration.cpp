@@ -19,6 +19,7 @@
 #include "headlesseglintegration.h"
 #include "headlesseglbackingstore.h"
 #include "headlessoffscreensurface.h"
+#include "headlesseglscreen.h"
 
 #include <qpa/qplatformwindow.h>
 #include <qpa/qplatformbackingstore.h>
@@ -126,6 +127,6 @@ void HeadlessEglIntegration::initialize()
         qFatal("Could not initialize EGL display: error = 0x%x", eglGetError());
     }
 
-    m_screen = new QPlatformPlaceholderScreen();
+    m_screen = new HeadlessEglScreen;
     QWindowSystemInterface::handleScreenAdded(m_screen);
 }

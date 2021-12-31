@@ -3,6 +3,7 @@ set(qpa_SRCS
     headlesseglbackingstore.cpp
     headlesseglcontext.cpp
     headlessoffscreensurface.cpp
+    headlesseglscreen.cpp
     main.cpp
 )
 
@@ -36,4 +37,3 @@ else()
     set(QT5_PLATFORMS_PLUGIN_DIR lib/qt/plugins/platforms CACHE STRING "Plugin install dir")
     install(TARGETS headlessegl DESTINATION ${QT5_PLATFORMS_PLUGIN_DIR})
 endif()
-

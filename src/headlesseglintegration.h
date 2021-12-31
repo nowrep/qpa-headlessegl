@@ -20,6 +20,8 @@
 
 #include <qpa/qplatformintegration.h>
 
+class HeadlessEglScreen;
+
 class HeadlessEglIntegration : public QPlatformIntegration
 {
 public:
@@ -41,5 +43,5 @@ private:
 
     QPlatformFontDatabase *m_fontDatabase = nullptr;
     void *m_dpy = nullptr;
-    QPlatformPlaceholderScreen *m_screen = nullptr;
+    HeadlessEglScreen *m_screen = nullptr;
 };
