@@ -10,6 +10,7 @@ set(qpa_SRCS
 add_library(headlessegl MODULE ${qpa_SRCS})
 
 add_definitions(
+    -DQT_EGL_NO_X11
     -DMESA_EGL_NO_X11_HEADERS
     ${EGL_DEFINITIONS}
 )
