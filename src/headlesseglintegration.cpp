@@ -24,6 +24,7 @@
 #include <qpa/qplatformwindow.h>
 #include <qpa/qplatformbackingstore.h>
 #include <qpa/qwindowsysteminterface.h>
+#include <qpa/qplatformnativeinterface.h>
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 #include <QtGui/private/qgenericunixfontdatabase_p.h>
@@ -48,6 +49,7 @@ HeadlessEglIntegration::HeadlessEglIntegration(const QStringList &parameters)
     : QPlatformIntegration()
     , m_parameters(parameters)
     , m_fontDatabase(new QGenericUnixFontDatabase())
+    , m_nativeInterface(new QPlatformNativeInterface())
 {
 }
 
@@ -55,6 +57,7 @@ HeadlessEglIntegration::~HeadlessEglIntegration()
 {
     QWindowSystemInterface::handleScreenRemoved(m_screen);
     delete m_fontDatabase;
+    delete m_nativeInterface;
     eglTerminate(m_dpy);
 }
 
@@ -96,6 +99,11 @@ QPlatformFontDatabase *HeadlessEglIntegration::fontDatabase() const
 QAbstractEventDispatcher *HeadlessEglIntegration::createEventDispatcher() const
 {
     return createUnixEventDispatcher();
+}
+
+QPlatformNativeInterface *HeadlessEglIntegration::nativeInterface() const
+{
+    return m_nativeInterface;
 }
 
 void HeadlessEglIntegration::initialize()

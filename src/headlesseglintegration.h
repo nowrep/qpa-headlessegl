@@ -35,6 +35,7 @@ public:
     QPlatformOffscreenSurface *createPlatformOffscreenSurface(QOffscreenSurface *surface) const override;
     QPlatformFontDatabase *fontDatabase() const override;
     QAbstractEventDispatcher *createEventDispatcher() const override;
+    QPlatformNativeInterface *nativeInterface() const override;
 
     void initialize() override;
 
@@ -44,4 +45,5 @@ private:
     QPlatformFontDatabase *m_fontDatabase = nullptr;
     void *m_dpy = nullptr;
     HeadlessEglScreen *m_screen = nullptr;
+    QPlatformNativeInterface *m_nativeInterface = nullptr;
 };
